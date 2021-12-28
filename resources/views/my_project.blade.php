@@ -1,0 +1,64 @@
+@extends('layouts.app')
+@section('title','Project')
+@section('content')
+
+@can('create_project')
+<a href="{{route('projects.create')}}" class="btn btn-theme btn-sm m-0 mb-3"><i class="fas fa-plus-square mr-1"></i> Create project</a>
+@endcan
+
+    <div class="card" >
+        <div class="card-body">
+            <table class="table table-bordered datatable" style="width:100%" >
+                <thead>
+                    <th class="no-sort no-search"></th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th style="width:150px" class="no-sort no-search">Leader</th>
+                    <th style="width:150px" class="no-sort no-search">Member</th>
+                    <th>StartDate</th>
+                    <th>Deadline</th>
+                    <th class="no-sort no-search">Priority</th>
+                    <th class="no-sort no-search">Status</th>
+                    <th class="hidden no-search">Update_at</th>
+                    <th class="no-sort no-search">Action</th>
+                </thead>
+            </table>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(function() {
+            var table = $('.datatable').DataTable({
+               
+                ajax: '/my-projects/datatables/ssd',
+                columns: [
+                    { data: 'plus', name:'plus' , class: 'text-center'},
+                    { data: 'title', name:'title' , class: 'text-center'},
+                    { data: 'description', name:'description' , class: 'text-center'},
+                    { data: 'leaders', name:'leaders' , class: 'text-center'},
+                    { data: 'members', name:'members' , class: 'text-center'},
+                    { data: 'startdate', name:'startdate' , class: 'text-center'},
+                    { data: 'deadline', name:'deadline' , class: 'text-center'},
+                    { data: 'priority', name:'priority' , class: 'text-center'},
+                    { data: 'status', name:'status' , class: 'text-center'},
+                    { data: 'updated_at', name: 'updated_at' , class : 'text-center'},
+                    { data: 'action', name: 'action' , class : 'text-center'},
+                ],
+                order : [[ 9 ,"desc"]]
+            });
+            
+
+           
+
+            @if(session('create'))
+                swal("Well done!", "{{session('create')}}", "success");
+            @endif
+
+            @if(session('update'))
+                swal("Well done!", "{{session('update')}}", "success");
+            @endif
+        });
+    </script>
+@endsection
